@@ -36,24 +36,47 @@ class App extends Component {
     super();
     this.state = {
       input: '',
-      imageUrl: ''
+      imageUrl: '',
+      boxes: []
     }
   }
 
+  calculateFaceLocations = (data) => {
+    const faces = data.outputs[0].data.regions
+    const image = document.getElementById('inputImage');
+    const width = Number(image.width);
+    const height = Number(image.height);
+    const boxes = [];
+
+    for (let box of faces) {
+      const face = box.region_info.bounding_box;
+      boxes.push({
+        leftCol: face.left_col * width,
+        topRow: face.top_row * height,
+        rightCol: width * (1 - face.right_col),
+        bottomRow: height * (1 - face.bottom_row),
+        hover: false
+      })
+    }
+    return boxes
+  }
+
+  displayFaceBoxes = (resp) => {
+    let boxes = [];
+    boxes = this.calculateFaceLocations(resp)
+    console.log(boxes);
+    this.setState({ boxes: boxes });
+  }
+
   onInputChange = (event) => {
-    this.setState({input: event.target.value});
+    this.setState({ input: event.target.value });
   }
 
   onSubmit = () => {
     this.setState({ imageUrl: this.state.input })
-    // Predict the contents of an image by passing in a URL.
     app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.input)
-      .then(response => {
-        console.log(response.outputs[0].data.regions[0].region_info.bounding_box);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      .then(response => this.displayFaceBoxes(response))
+      .catch(err => console.log(err));
   }
 
   render() {
@@ -69,7 +92,10 @@ class App extends Component {
           onInputChange={this.onInputChange}
           onSubmit={this.onSubmit}
         />
-        <FaceRecognition imageUrl={this.state.imageUrl} />
+        <FaceRecognition
+          boxes={this.state.boxes}
+          imageUrl={this.state.imageUrl}
+        />
       </div>
     );
   }
