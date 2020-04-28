@@ -39,6 +39,8 @@ class App extends Component {
       imageUrl: '',
       boxes: []
     }
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   calculateFaceLocations = (data) => {
@@ -63,8 +65,7 @@ class App extends Component {
 
   displayFaceBoxes = (resp) => {
     let boxes = [];
-    boxes = this.calculateFaceLocations(resp)
-    console.log(boxes);
+    boxes = this.calculateFaceLocations(resp);
     this.setState({ boxes: boxes });
   }
 
@@ -88,10 +89,7 @@ class App extends Component {
         <Navigation />
         <Logo />
         <Rank />
-        <ImageLinkForm
-          onInputChange={this.onInputChange}
-          onSubmit={this.onSubmit}
-        />
+        <ImageLinkForm onInputChange={this.onInputChange} onSubmit={this.onSubmit} />
         <FaceRecognition
           boxes={this.state.boxes}
           imageUrl={this.state.imageUrl}
