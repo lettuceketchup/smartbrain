@@ -33,7 +33,6 @@ const initialState = {
   input: '',
   imageUrl: '',
   hostUrl: 'https://rocky-refuge-94414.herokuapp.com/',
-  // hostUrl: 'http://localhost:3005/',
   boxes: [],
   route: 'signin',
   isSignedIn: false,
