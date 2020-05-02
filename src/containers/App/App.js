@@ -32,6 +32,8 @@ const particlesOptions = {
 const initialState = {
   input: '',
   imageUrl: '',
+  hostUrl: 'https://rocky-refuge-94414.herokuapp.com/',
+  // hostUrl: 'http://localhost:3005/',
   boxes: [],
   route: 'signin',
   isSignedIn: false,
@@ -94,7 +96,7 @@ class App extends Component {
 
   onSubmit = () => {
     this.setState({ imageUrl: this.state.input })
-    fetch('http://localhost:3003/imageurl', {
+    fetch(`${this.state.hostUrl}imageurl`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -104,7 +106,7 @@ class App extends Component {
       .then(response => response.json())
       .then(response => {
         if (response) {
-          fetch('http://localhost:3003/image', {
+          fetch(`${this.state.hostUrl}image`, {
             method: 'put',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -155,10 +157,12 @@ class App extends Component {
                 ? <Register
                   onRouteChange={this.onRouteChange}
                   loadUser={this.loadUser}
+                  hostUrl={this.state.hostUrl}
                 />
                 : <SignIn
                   onRouteChange={this.onRouteChange}
                   loadUser={this.loadUser}
+                  hostUrl={this.state.hostUrl}
                 />
             )
         }

@@ -9,6 +9,7 @@ class SignIn extends React.Component {
             signInEmail: '',
             signInPassword: ''
         }
+        this.hostUrl = this.props.hostUrl
     }
 
     onEmailChange = event => {
@@ -20,7 +21,7 @@ class SignIn extends React.Component {
     }
 
     onSubmitSignIn = () => {
-        fetch('http://localhost:3003/signin', {
+        fetch(`${this.hostUrl}signin`, {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

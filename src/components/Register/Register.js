@@ -10,6 +10,7 @@ class Register extends React.Component {
             password: '',
             name: ''
         }
+        this.hostUrl = this.props.hostUrl
     }
 
     onEmailChange = event => {
@@ -25,7 +26,7 @@ class Register extends React.Component {
     }
 
     onSubmitRegister = () => {
-        fetch('http://localhost:3003/register', {
+        fetch(`${this.hostUrl}register`, {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
