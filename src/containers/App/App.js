@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import Particles from 'react-particles-js'
 import Navigation from '../../components/Navigation/Navigation';
 import Logo from '../../components/Logo/Logo';
@@ -9,6 +8,7 @@ import FaceRecognition from '../../components/FaceRecognition/FaceRecognition';
 import Clarifai from 'clarifai';
 import SignIn from '../../components/SignIn/SignIn';
 import Register from '../../components/Register/Register';
+import './App.css';
 
 // Instantiate a new Clarifai app by passing in your API key.
 const app = new Clarifai.App({ apiKey: '48ab05d6a0af406586d1179d82f479e8' });
@@ -102,7 +102,7 @@ class App extends Component {
         this.state.input)
       .then(response => {
         if (response) {
-          fetch('http://localhost:3000/image', {
+          fetch('http://localhost:3003/image', {
             method: 'put',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

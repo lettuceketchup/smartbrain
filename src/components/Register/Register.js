@@ -25,7 +25,7 @@ class Register extends React.Component {
     }
 
     onSubmitRegister = () => {
-        fetch('http://localhost:3000/register', {
+        fetch('http://localhost:3003/register', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -46,7 +46,7 @@ class Register extends React.Component {
     render() {
         // const onRouteChange = this.onRouteChange;
         return (
-            <main className="pa4 white-90 center mw6 mw6-ns br3 hidden bg-black-10 ba b--white-50 mv4 shadow-5">
+            <main className="pa5 white-90 center mw6 mw6-ns br3 hidden bg-black-10 ba b--white-50 mv4 shadow-5">
                 <div className="measure">
                     <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                         <legend className="f2 fw6 ph0 mh0">Register</legend>

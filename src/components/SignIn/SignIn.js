@@ -20,7 +20,7 @@ class SignIn extends React.Component {
     }
 
     onSubmitSignIn = () => {
-        fetch('http://localhost:3000/signin', {
+        fetch('http://localhost:3003/signin', {
             method: 'post',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -40,7 +40,7 @@ class SignIn extends React.Component {
     render() {
         const onRouteChange = this.onRouteChange;
         return (
-            <main className="pa4 white-90 center mw6 mw6-ns br3 hidden bg-black-10 ba b--white-50 mv4 shadow-5">
+            <main className="pa4 white-90 center mw5 mw6-ns br3 hidden bg-black-10 ba b--white-50 mv4 shadow-5">
                 <div className="measure">
                     <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
                         <legend className="f2 fw6 ph0 mh0">Sign In</legend>
