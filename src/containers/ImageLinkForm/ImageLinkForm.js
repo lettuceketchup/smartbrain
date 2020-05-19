@@ -12,7 +12,7 @@ class ImageLinkForm extends Component {
     handleFocus = event => event.target.select();
 
     keyPress = e => {
-        if (e.key === 'Enter') {            
+        if (e.key === 'Enter') {
             this.onSubmit();
         }
     }
@@ -28,8 +28,8 @@ class ImageLinkForm extends Component {
                     {'This Magic Brain will detect faces in your pictures.'}
                 </p>
                 <div className='center'>
-                    <div className='pa3 br2 shadow-5 form center' 
-                            onKeyDown={this.keyPress}>
+                    <div className='pa3 br2 shadow-5 form center'
+                        onKeyDown={this.keyPress}>
                         <input className='f4 pa2 w-70 center' type='text'
                             onChange={this.onInputChange}
                             onFocus={this.handleFocus}

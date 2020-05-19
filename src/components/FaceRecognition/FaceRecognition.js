@@ -1,5 +1,4 @@
 import React from 'react';
-import './FaceRecognition.css';
 import BoxArray from '../BoxArray/BoxArray';
 
 const FaceRecognition = ({ boxes, imageUrl }) => {
