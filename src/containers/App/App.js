@@ -67,14 +67,15 @@ class App extends Component {
   }
 
   calculateFaceLocations = (data) => {
-    const faces = data.outputs[0].data.regions
+    // const faces = data.outputs[0].data.regions
+    const faces = data
     const image = document.getElementById('inputImage');
     const width = Number(image.width);
     const height = Number(image.height);
     const boxes = [];
 
-    for (let box of faces) {
-      const face = box.region_info.bounding_box;
+    for (let face of faces) {
+      // const face = box.region_info.bounding_box;
       boxes.push({
         leftCol: face.left_col * width,
         topRow: face.top_row * height,
@@ -121,6 +122,7 @@ class App extends Component {
             })
             .catch(err => console.log);
         }
+        console.log(response)
         this.displayFaceBoxes(response)
       })
       .catch(err => console.log(err));
