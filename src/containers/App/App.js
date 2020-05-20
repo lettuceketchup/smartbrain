@@ -33,9 +33,9 @@ const initialState = {
   input: '',
   imageUrl: '',
   // For heroku
-  // hostUrl: 'https://rocky-refuge-94414.herokuapp.com/',
+  hostUrl: 'https://rocky-refuge-94414.herokuapp.com/',
   // For Local
-  hostUrl: 'http://localhost:3005/',
+  // hostUrl: 'http://localhost:3005/',
   boxes: [],
   route: 'signin',
   isSignedIn: false,
