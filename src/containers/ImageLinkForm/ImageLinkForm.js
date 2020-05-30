@@ -5,8 +5,14 @@ class ImageLinkForm extends Component {
     constructor(props) {
         super(props);
         this.onInputChange = this.props.onInputChange;
-        this.onSubmit = this.props.onSubmit;
+        this.onImageUrlChange = this.props.onImageUrlChange;
+        this.onRequestFaces = this.props.onRequestFaces;
         this.focusInput = React.createRef()
+    }
+
+    onSubmit = () => {
+        this.onImageUrlChange(this.props.input);
+        this.onRequestFaces(this.props.hostUrl, this.props.input, this.props.user);
     }
 
     handleFocus = event => event.target.select();
