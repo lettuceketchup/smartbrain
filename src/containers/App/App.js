@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import Particles from 'react-particles-js'
 import Navigation from '../../components/Navigation/Navigation';
 import Logo from '../../components/Logo/Logo';
@@ -8,6 +9,23 @@ import FaceRecognition from '../../components/FaceRecognition/FaceRecognition';
 import SignIn from '../../components/SignIn/SignIn';
 import Register from '../../components/Register/Register';
 import './App.css';
+
+import { setInput, setImageUrl, requestFaces } from '../../actions';
+
+const mapStateToProps = state => ({
+  input: state.inputChange.input,
+  imageUrl: state.setImageUrl.imageUrl,
+  boxes: state.requestFaces.boxes,
+  isPending: state.requestFaces.isPending,
+  error: state.requestFaces.error
+})
+
+
+const mapDispatchToProps = (dispatch) => ({
+  onInputChange: (event) => dispatch(setInput(event.target.value)),
+  onImageUrlChange: (input) => dispatch(setImageUrl(input)),
+  onRequestFaces: (hostUrl, imageUrl, user) => dispatch(requestFaces(hostUrl, imageUrl, user))
+})
 
 const particlesOptions = {
   particles: {
@@ -30,13 +48,11 @@ const particlesOptions = {
 }
 
 const initialState = {
-  input: '',
-  imageUrl: '',
+  hostUrl: process.env.HOST_URL,
   // For heroku
-  hostUrl: 'https://rocky-refuge-94414.herokuapp.com/',
+  // hostUrl: 'https://rocky-refuge-94414.herokuapp.com/',
   // For Local
   // hostUrl: 'http://localhost:3005/',
-  boxes: [],
   route: 'signin',
   isSignedIn: false,
   user: {
@@ -47,6 +63,8 @@ const initialState = {
     joined: ''
   }
 }
+console.log(initialState);
+console.log(process.env);
 
 class App extends Component {
   constructor() {
@@ -66,68 +84,6 @@ class App extends Component {
     })
   }
 
-  calculateFaceLocations = (data) => {
-    // const faces = data.outputs[0].data.regions
-    const faces = data
-    const image = document.getElementById('inputImage');
-    const width = Number(image.width);
-    const height = Number(image.height);
-    const boxes = [];
-
-    for (let face of faces) {
-      // const face = box.region_info.bounding_box;
-      boxes.push({
-        leftCol: face.left_col * width,
-        topRow: face.top_row * height,
-        rightCol: width * (1 - face.right_col),
-        bottomRow: height * (1 - face.bottom_row),
-        hover: false
-      })
-    }
-    return boxes
-  }
-
-  displayFaceBoxes = (resp) => {
-    let boxes = [];
-    boxes = this.calculateFaceLocations(resp);
-    this.setState({ boxes: boxes });
-  }
-
-  onInputChange = (event) => {
-    this.setState({ input: event.target.value });
-  }
-
-  onSubmit = () => {
-    this.setState({ imageUrl: this.state.input })
-    fetch(`${this.state.hostUrl}imageurl`, {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        input: this.state.input
-      })
-    })
-      .then(response => response.json())
-      .then(response => {
-        if (response) {
-          fetch(`${this.state.hostUrl}image`, {
-            method: 'put',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              id: this.state.user.id
-            })
-          })
-            .then(response => response.json())
-            .then(count => {
-              this.setState(Object.assign(this.state.user, { entries: count }))
-            })
-            .catch(err => console.log);
-        }
-        console.log(response)
-        this.displayFaceBoxes(response)
-      })
-      .catch(err => console.log(err));
-  }
-
   onRouteChange = (route) => {
     if (route === 'signout' || route === 'signin' || route === 'register')
       this.setState(initialState);
@@ -137,7 +93,8 @@ class App extends Component {
   }
 
   render() {
-    const { imageUrl, boxes, route, user } = this.state;
+    const { route, user } = this.state;
+    const { onInputChange, onImageUrlChange, onRequestFaces, imageUrl, boxes, input } = this.props;
     return (
       <div className='App'>
         <Particles className='particles'
@@ -150,8 +107,12 @@ class App extends Component {
               <Logo />
               <Rank name={user.name} entries={user.entries} />
               <ImageLinkForm
-                onInputChange={this.onInputChange}
-                onSubmit={this.onSubmit}
+                onInputChange={onInputChange}
+                onImageUrlChange={onImageUrlChange}
+                onRequestFaces={onRequestFaces}
+                hostUrl={this.state.hostUrl}
+                input={input}
+                user={user}
               />
               <FaceRecognition boxes={boxes} imageUrl={imageUrl}
               />
@@ -175,4 +136,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
