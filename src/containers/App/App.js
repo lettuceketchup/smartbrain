@@ -48,7 +48,7 @@ const particlesOptions = {
 }
 
 const initialState = {
-  hostUrl: process.env.HOST_URL,
+  hostUrl: process.env.REACT_APP_HOST_URL,
   // For heroku
   // hostUrl: 'https://rocky-refuge-94414.herokuapp.com/',
   // For Local
@@ -63,8 +63,6 @@ const initialState = {
     joined: ''
   }
 }
-console.log(initialState);
-console.log(process.env);
 
 class App extends Component {
   constructor() {
